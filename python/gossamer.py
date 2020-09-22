@@ -1,7 +1,13 @@
-import convert_to_html as cth
-import convert_to_scss as ctc
+from convert_to_html import ConvertToHTML
+from convert_to_scss import ConvertToSCSS
+import sys
 
-html_converter = cth.ConvertToHTML('demo', 'demo.glayout')
-html_converter.convert()
-css_converter = ctc.ConvertToSCSS('demo', 'demo.gstyle')
-css_converter.convert()
+files = sys.argv[1:]
+for file in files:
+    ext = file.split('.')[-1]
+    if ext == 'glayout':
+        ConvertToHTML(file)
+    elif ext == 'gstyle':
+        ConvertToSCSS(file)
+    else:
+        print(f'Invalid file: {file}')

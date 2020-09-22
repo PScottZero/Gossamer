@@ -1,16 +1,14 @@
 from mappings import tag_map
 
 class ConvertToHTML:
-  def __init__(self, folder, layout_file):
-    self.layout_file = open(folder + '/' + layout_file, 'r')
-    self.html_file = open(folder + '/' + layout_file.split('.')[0] + '.html', 'w')
-    self.file_name = layout_file.split('.')[0]
+  def __init__(self, layout_dir):
+    self.layout_file = open(layout_dir, 'r')
+    self.html_file = open(layout_dir.split('.')[0] + '.html', 'w')
+    self.file_name = layout_dir.split('/')[-1].split('.')[0]
     self.tab_depth = 0
+    self.convert()
 
   def convert(self):
-    self.parse_root()
-
-  def parse_root(self):
 
     # write html header
     self.write_html_header()
@@ -31,15 +29,15 @@ class ConvertToHTML:
 
     # read all tags
     while self.is_tag(line):
-      tag_name, tag_id = self.get_tag(line)
-      self.parse_tag(tag_name, tag_id)
+      tag_name, tag_ids = self.get_tag(line)
+      self.parse_tag(tag_name, tag_ids)
       line = self.next_line()
     
     # close html
     if self.is_closure(line):
       self.html_file.write('</body>\n</html>\n')
 
-  def parse_tag(self, tag_name, tag_id):
+  def parse_tag(self, tag_name, tag_ids):
 
     # write html tag
     self.tab_depth += 1
@@ -47,12 +45,18 @@ class ConvertToHTML:
     tag_line = tab + '<' + tag_name
     line = self.next_line()
 
-    # write tags id or class
-    if tag_id != None:
-      if tag_id[0] == '#':
-        tag_line += ' id="' + tag_id[1:] + '"'
-      else:
-        tag_line += ' class="' + tag_id[1:] + '"'
+    # write tag's id or class
+    if tag_ids != None:
+      class_line = 'class="'
+      has_classes = False
+      for id_or_class in tag_ids:
+        if id_or_class[0] == '#':
+          tag_line += ' id="' + id_or_class[1:] + '"'
+        else:
+          has_classes = True
+          class_line += id_or_class[1:] + ' '
+      if has_classes:
+        tag_line += ' ' + class_line.strip() + '"'
     
     # write attributes or text
     if tag_name == 'p':
@@ -71,8 +75,8 @@ class ConvertToHTML:
 
     # check for nested tags
     while self.is_tag(line):
-      new_tag_name, new_tag_id = self.get_tag(line)
-      self.parse_tag(new_tag_name, new_tag_id)
+      new_tag_name, new_tag_ids = self.get_tag(line)
+      self.parse_tag(new_tag_name, new_tag_ids)
       line = self.next_line()
 
     # close tag
@@ -83,13 +87,13 @@ class ConvertToHTML:
   def get_tag(self, line):
     tag_line = line.split()
     tag_name = tag_line[0].lower()
-    tag_id = tag_line[1]
-    if tag_id == '{':
-      tag_id = None
+    tag_ids = tag_line[1:-1]
+    if len(tag_ids) == 0:
+      tag_ids = None
     if tag_name in tag_map:
-      return tag_map[tag_name], tag_id
+      return tag_map[tag_name], tag_ids
     else:
-      return tag_name, tag_id
+      return tag_name, tag_ids
 
   def is_attribute_line(self, line: str):
     return not self.is_tag(line) and not self.is_closure(line) and len(line.split(': ')) == 2
@@ -116,5 +120,5 @@ class ConvertToHTML:
       '<head>\n' +
       '  <meta charset="utf-8">\n' +
       '  <meta name="viewport" content="width=device-width, initial-scale=1">\n'
-      '  <link rel="stylesheet" href="' + self.file_name + '.css">'
+      '  <link rel="stylesheet" href="' + self.file_name + '.css">\n'
     )
