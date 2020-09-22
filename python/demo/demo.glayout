@@ -1,0 +1,41 @@
+Root {
+  title: Gossamer Demo
+  icon: images/favicon.svg
+
+  Header {
+    Image #logo {
+      src: images/logo.svg
+    }
+
+    Navigation {
+      Link .nav-link {
+        href: https://pjs4.com
+        target: _blank
+        
+        Text {
+          My Website
+        }
+      }
+      Link .nav-link {
+        href: https://drive.google.com/file/d/1Z79TNs30ttAftoWwJbqm93X77OljiM3L/
+        target: _blank
+        
+        Text {
+          My Resume
+        }
+      }
+    }
+  }
+
+  Container #center {
+    Text {
+      Hello World!
+    } 
+  }
+
+  Footer {
+    Text {
+      Created By: Paul Scott
+    }
+  }
+}

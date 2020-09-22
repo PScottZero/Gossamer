@@ -1,0 +1,9 @@
+
+.DS_Store
+*/.DS_Store
+python/__pycache__/
+Python/.vscode/
+python/demo/demo.css
+python/demo/demo.css.map
+python/demo/demo.html
+python/demo/demo.scss
