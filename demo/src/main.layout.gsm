@@ -1,9 +1,43 @@
 Root {
-  title: Gossamer Project
-  icon: ../assets/icons/favicon.svg
-  alt-icon: ../assets/icons/favicon.ico
+    title: Gossamer Project
+    icon: ../assets/icons/favicon.svg
+    alt-icon: ../assets/icons/favicon.ico
 
-  Text {
-    Welcome to Gossamer v0.1
-  }
+    Header {
+        Image #logo {
+            src: ../assets/images/logo.svg
+        }
+
+        Navigation {
+            Link .nav-link {
+                href: https://pjs4.com/
+                target: _blank
+
+                Text {
+                    My Website
+                }
+            }
+
+            Link .nav-link .nav-link1 {
+                href: https://pjs4.com/
+                target: _blank
+
+                Text {
+                    My Resume
+                }
+            }
+        }
+    }
+
+    Container #center {
+        Text {
+            Hello World!
+        }
+    }
+
+    Footer {
+        Text {
+            Created By: Paul Scott
+        }
+    }
 }

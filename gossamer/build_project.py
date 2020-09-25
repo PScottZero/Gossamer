@@ -1,6 +1,4 @@
-from convert_to_html import ConvertToHTML
-from convert_to_scss import ConvertToSCSS
-import sys
+from generate_html import HTMLGenerator
 
-files = sys.argv[1]
-
+html_gen = HTMLGenerator('../demo')
+html_gen.parse_root()
