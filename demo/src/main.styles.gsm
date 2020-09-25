@@ -1,0 +1,11 @@
+* {
+  border: 0
+  margin: 0
+  padding: 0
+  font-stack: Arial, Helvetica, sans-serif
+}
+
+body {
+  width: 100vw
+  height: 100vh
+}

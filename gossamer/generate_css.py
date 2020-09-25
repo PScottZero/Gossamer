@@ -2,7 +2,7 @@ from mappings import tag_map, css_map
 import regex as re
 import os
 
-class ConvertToSCSS:
+class CSSGenerator:
   def __init__(self, style_dir):
     self.style_file = open(style_dir, 'r').readlines()
     self.scss_file = open(style_dir.split('.')[0] + '.scss', 'w')

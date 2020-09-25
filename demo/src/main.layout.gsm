@@ -1,0 +1,9 @@
+Root {
+  title: Gossamer Project
+  icon: ../assets/icons/favicon.svg
+  alt-icon: ../assets/icons/favicon.ico
+
+  Text {
+    Welcome to Gossamer v0.1
+  }
+}
