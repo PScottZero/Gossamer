@@ -11,10 +11,11 @@ class HTMLGenerator:
             shutil.rmtree(self.build_dir)
         os.mkdir(self.build_dir)
         self.html_file = open(self.build_dir + 'index.html', 'w')
+        self.components = []
         self.tab_depth = 0
 
     def parse_root(self):
-        root_file = open(self.src_dir + 'main.layout.gsm', 'r')
+        root_file = open(self.src_dir + 'root.layout.gsm', 'r')
         self.write_html_header()
         root_file.readline()
         curr_line = self.next_line(root_file)
@@ -34,16 +35,16 @@ class HTMLGenerator:
         # read tags and or components
         while not self.is_closure(curr_line):
             if self.is_component(curr_line):
-                pass
+                self.parse_component(root_file, curr_line)
             elif self.is_tag(curr_line):
-                self.parse_tag(root_file, curr_line)
+                self.parse_tag(root_file, curr_line, {})
             curr_line = self.next_line(root_file)
 
         # complete html file
         self.html_file.write('</body>\n</html>\n')
         root_file.close()
 
-    def parse_tag(self, file, curr_line):
+    def parse_tag(self, file, curr_line, inputs):
         self.tab_depth += 1
         tag_name, id_line = self.get_tag_info(curr_line)
         tag_line = self.get_tab() + '<' + tag_name + id_line
@@ -52,9 +53,9 @@ class HTMLGenerator:
         if self.is_text_tag(tag_name):
             tag_line += '>\n'
             self.html_file.write(tag_line)
-            curr_line = self.get_enclosed_text(file)
+            curr_line = self.get_enclosed_text(file, inputs)
         else:
-            tag_attr, curr_line = self.get_attributes(file)
+            tag_attr, curr_line = self.get_attributes(file, inputs)
             tag_line += tag_attr + '>\n'
             self.html_file.write(tag_line)
 
@@ -62,13 +63,40 @@ class HTMLGenerator:
         if not self.is_self_closing(tag_name):
             while not self.is_closure(curr_line):
                 if self.is_component(curr_line):
-                    pass
+                    self.parse_component(file, curr_line)
                 elif self.is_tag(curr_line):
-                    self.parse_tag(file, curr_line)
-                curr_line = self.next_line(file)
+                    self.parse_tag(file, curr_line, inputs)
+                curr_line = self.replace_with_inputs(inputs, self.next_line(file))
             self.html_file.write(self.get_tab() + '</' + tag_name + '>\n')
 
         self.tab_depth -= 1
+
+    def parse_component(self, file, curr_line):
+        component_name, component_inputs, curr_line = self.get_component_info(file, curr_line)
+        self.components.append(component_name)
+        component_file = open(self.src_dir + '/components/' +
+            component_name + '/' + component_name + '.layout.gsm', 'r')
+        
+        component_file.readline()
+        curr_line = self.next_line(component_file)
+
+        # read tags and or components
+        while not self.is_closure(curr_line):
+            if self.is_component(curr_line):
+                self.parse_component(component_file, curr_line)
+            elif self.is_tag(curr_line):
+                self.parse_tag(component_file, curr_line, component_inputs)
+            curr_line = self.next_line(component_file)
+
+    def get_component_info(self, file, curr_line):
+        component_name = curr_line.split()[1]
+        curr_line = self.next_line(file)
+        component_inputs = {}
+        while self.is_attribute(curr_line):
+            input_name, input_value = curr_line.split(':')
+            component_inputs[input_name.strip()] = input_value.strip()
+            curr_line = self.next_line(file)
+        return component_name, component_inputs, curr_line
 
     def get_tag_info(self, curr_line):
         split_temp = curr_line.split()
@@ -80,6 +108,11 @@ class HTMLGenerator:
         if tag_name in tag_map:
             tag_name = tag_map[tag_name]
         return tag_name, id_line
+
+    def replace_with_inputs(self, inputs, line):
+        for key, value in inputs.items():
+            line = line.replace('$' + key, value)
+        return line
 
     def get_id_and_class_string(self, tag_ids):
         class_line = 'class="'
@@ -95,23 +128,23 @@ class HTMLGenerator:
             id_line += ' ' + class_line.strip() + '"'
         return id_line
 
-    def get_attributes(self, file):
+    def get_attributes(self, file, inputs):
         tag_line = ''
-        line = self.next_line(file)
+        line = line = self.replace_with_inputs(inputs, self.next_line(file))
         while self.is_attribute(line):
             attr, value = line.split(': ')
             tag_line += ' ' + attr.strip() + '="' + value.strip() + '"'
-            line = self.next_line(file)
+            line = line = self.replace_with_inputs(inputs, self.next_line(file))
         return tag_line, line
 
     def get_tab(self):
         return '    ' * self.tab_depth
 
-    def get_enclosed_text(self, file):
-        line = self.next_line(file)
+    def get_enclosed_text(self, file, inputs):
+        line = self.replace_with_inputs(inputs, self.next_line(file))
         while not self.is_closure(line):
             self.html_file.write(self.get_tab() + '    ' + line.strip() + '\n')
-            line = self.next_line(file)
+            line = self.replace_with_inputs(inputs, self.next_line(file))
         return line
 
     def is_self_closing(self, tag_name):
@@ -127,7 +160,7 @@ class HTMLGenerator:
         return '{' in line
 
     def is_component(self, line):
-        return '@Component' in line
+        return 'Component' in line
 
     def is_closure(self, line):
         return line.strip() == '}'

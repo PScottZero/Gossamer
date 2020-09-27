@@ -2,7 +2,7 @@
   border: 0
   margin: 0
   padding: 0
-  font-stack: Arial, Helvetica, sans-serif
+  font-family: Arial, Helvetica, sans-serif
 }
 
 body {

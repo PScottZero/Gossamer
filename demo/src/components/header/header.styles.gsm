@@ -1,0 +1,33 @@
+Header {
+    position: fixed
+    box-sizing: border-box
+    height: 6em
+    padding: 1em
+    width: 100%
+
+    #logo {
+        height: 100%
+        float: left
+    }
+
+    Navigation {
+        float: right
+    }
+
+    .nav-link {
+        display: inline-block
+        line-height: 4em
+        padding-left: 1em
+        text-decoration: none
+
+        Text {
+            transition: 0.2s
+            font-size: 20px
+            color: #888
+
+            self.hover {
+                color: #bbb
+            }
+        }
+    }
+}

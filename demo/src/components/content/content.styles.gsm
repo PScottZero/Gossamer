@@ -1,0 +1,19 @@
+#center {
+    width: 100vw
+    height: 100vh
+    text-align: center
+
+    Text {
+        position: center
+        font-size: 128px
+        width: 100%
+
+        self.tablet {
+            font-size: 64px
+        }
+
+        self.phone {
+            font-size: 32px
+        }
+    }
+}

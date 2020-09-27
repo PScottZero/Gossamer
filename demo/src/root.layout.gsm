@@ -1,0 +1,17 @@
+Root {
+    title: Gossamer Demo
+    icon: ../assets/icons/favicon.svg
+    alt-icon: ../assets/icons/favicon.ico
+
+    Component header {
+        logo: ../assets/images/logo.svg
+    }
+
+    Component content {
+        text: Gossamer Demo
+    }
+
+    Component footer {
+        text: Created By Paul Scott
+    }
+}

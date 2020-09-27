@@ -1,0 +1,7 @@
+Component {
+  Container #center {
+    Text {
+      $text
+    }
+  }
+}
