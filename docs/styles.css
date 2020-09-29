@@ -37,7 +37,7 @@ header #logo {
   position: relative;
   width: 100vw;
   height: calc(100vh - 5em);
-  background-image: url("../assets/images/header-image.png");
+  background-image: url("assets/images/header-image.png");
   background-size: cover;
   margin-top: 5em;
   text-align: center;
