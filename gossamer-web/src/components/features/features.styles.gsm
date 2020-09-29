@@ -5,6 +5,10 @@
     background: #d259a1
     text-color: white
 
+    self.phone {
+        padding: 2em 0
+    }
+
     .feature {
         box-sizing: border-box
         padding: 4em
@@ -13,12 +17,20 @@
         background: #db72b1
         margin-bottom: 2em
 
+        self.phone {
+            padding: 3em
+        }
+
         .heading-medium {
             font-size: 36px
         }
 
         Text {
             font-size: 24px
+
+            self.phone {
+                font-size: 20px
+            }
         }
 
         self.last-child {

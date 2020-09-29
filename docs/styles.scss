@@ -39,7 +39,7 @@ header {
     position: relative;
     width: 100vw;
     height: calc(100vh - 5em);
-    background-image: url('../assets/images/header-image.png');
+    background-image: url('assets/images/header-image.png');
     background-size: cover;
     margin-top: 5em;
     text-align: center;
@@ -49,6 +49,10 @@ header {
         width: 100%;
         color: white;
         font-size: 4vw;
+
+        @media screen and (max-width: 768px) {
+            font-size: 2em;
+        }
     }
 }
 
@@ -59,6 +63,10 @@ header {
     background: #d259a1;
     color: white;
 
+    @media screen and (max-width: 768px) {
+        padding: 2em 0;
+    }
+
     .feature {
         box-sizing: border-box;
         padding: 4em;
@@ -67,12 +75,20 @@ header {
         background: #db72b1;
         margin-bottom: 2em;
 
+        @media screen and (max-width: 768px) {
+            padding: 3em;
+        }
+
         .heading-medium {
             font-size: 36px;
         }
 
         p {
             font-size: 24px;
+
+            @media screen and (max-width: 768px) {
+                font-size: 20px;
+            }
         }
 
         &:last-child {
