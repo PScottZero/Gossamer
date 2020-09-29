@@ -7,12 +7,20 @@ tag_map = {
     'link': 'a',
     'orderedlist': 'ol',
     'unorderedlist': 'ul',
-    'navigation': 'nav'
+    'navigation': 'nav',
+    'italic': 'em'
+}
+
+attr_map = {
+    'source': 'src',
+    'destination': 'href',
+    'description': 'alt'
 }
 
 css_map = {
     'self.tablet': '@media screen and (max-width: 1024px)',
     'self.phone': '@media screen and (max-width: 768px)',
     'self.': '&:',
-    'position: center': 'position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%)'
+    'position: center': 'position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%)',
+    'text-color': 'color'
 }

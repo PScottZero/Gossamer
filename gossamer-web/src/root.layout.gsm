@@ -1,0 +1,10 @@
+Root {
+  title: Gossamer
+  icon: ../assets/icons/favicon.svg
+  alt-icon: ../assets/icons/favicon.ico
+
+  Component header {}
+  Component header-image {}
+  Component features {}
+  Component examples {}
+}

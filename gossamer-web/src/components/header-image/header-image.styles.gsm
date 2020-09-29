@@ -1,0 +1,16 @@
+#header-image {
+    position: relative
+    width: 100vw
+    height: calc(100vh - 5em)
+    background-image: url('../assets/images/header-image.png')
+    background-size: cover
+    margin-top: 5em
+    text-align: center
+
+    Text {
+        position: center
+        width: 100%
+        text-color: white
+        font-size: 4vw
+    }
+}

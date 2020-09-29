@@ -44,32 +44,3 @@ header {
     }
 }
 
-#center {
-    width: 100vw;
-    height: 100vh;
-    text-align: center;
-
-    p {
-        position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-        font-size: 128px;
-        width: 100%;
-
-        @media screen and (max-width: 1024px) {
-            font-size: 64px;
-        }
-
-        @media screen and (max-width: 768px) {
-            font-size: 32px;
-        }
-    }
-}
-
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    padding: 1em;
-    text-align: center;
-    font-size: 20px;
-}
-

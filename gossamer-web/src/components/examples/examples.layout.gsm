@@ -1,0 +1,7 @@
+Component {
+  Container #examples {
+    Text .heading-large {
+      Examples
+    }
+  }
+}

@@ -1,0 +1,8 @@
+Component {
+  Header {
+    Image #logo {
+      source: ../assets/images/logo.svg
+      description: Gossamer Logo
+    }
+  }
+}

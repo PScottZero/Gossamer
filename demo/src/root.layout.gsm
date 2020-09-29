@@ -1,7 +1,7 @@
 Root {
     title: Gossamer Demo
     icon: ../assets/icons/favicon.svg
-    alt-icon: ../assets/icons/favicon.ico
+    alternate-icon: ../assets/icons/favicon.ico
 
     Component header {
         logo: ../assets/images/logo.svg

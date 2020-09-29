@@ -1,0 +1,28 @@
+#features {
+    box-sizing: border-box
+    padding: 2em
+    width: 100vw
+    background: #d259a1
+    text-color: white
+
+    .feature {
+        box-sizing: border-box
+        padding: 4em
+        border-radius: 2em
+        width: 100%
+        background: #db72b1
+        margin-bottom: 2em
+
+        .heading-medium {
+            font-size: 36px
+        }
+
+        Text {
+            font-size: 24px
+        }
+
+        self.last-child {
+            margin-bottom: 0
+        }
+    }
+}

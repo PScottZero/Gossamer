@@ -1,13 +1,13 @@
 Component {
   Header {
     Image #logo {
-      src: $logo
-      alt: Logo
+      source: $logo
+      description: Logo
     }
 
     Navigation {
       Link .nav-link {
-        href: https://pjs4.com/
+        destination: https://pjs4.com/
         target: _blank
 
         Text {
@@ -16,7 +16,7 @@ Component {
       }
 
       Link .nav-link {
-        href: https://drive.google.com/file/d/1Z79TNs30ttAftoWwJbqm93X77OljiM3L/edit
+        destination: https://drive.google.com/file/d/1Z79TNs30ttAftoWwJbqm93X77OljiM3L/edit
         target: _blank
         
         Text {

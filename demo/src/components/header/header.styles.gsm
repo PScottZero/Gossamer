@@ -23,10 +23,10 @@ Header {
         Text {
             transition: 0.2s
             font-size: 20px
-            color: #888
+            text-color: #888
 
             self.hover {
-                color: #bbb
+                text-color: #bbb
             }
         }
     }

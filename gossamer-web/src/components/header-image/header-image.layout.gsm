@@ -1,0 +1,7 @@
+Component {
+  Container #header-image {
+    Text {
+      Made For Those Sick of Looking at HTML
+    }
+  }
+}

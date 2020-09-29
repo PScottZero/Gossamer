@@ -1,4 +1,4 @@
-from mappings import tag_map
+from mappings import tag_map, attr_map
 import shutil
 import os
 
@@ -22,12 +22,12 @@ class HTMLGenerator:
 
         # write root attributes
         while self.is_attribute(curr_line):
-            attr, value = curr_line.split(':')
+            attr, value = curr_line.split(': ')
             if attr.strip() == 'title':
                 self.html_file.write('  <title>' + value.strip() + '</title>\n'),
             elif attr.strip() == 'icon':
                 self.html_file.write('  <link rel="icon" type="image/svg+xml" href="' + value.strip() + '">\n')
-            elif attr.strip() == 'alt-icon':
+            elif attr.strip() == 'alternate-icon':
                 self.html_file.write('  <link rel="alternate icon" href="' + value.strip() + '">\n')
             curr_line = self.next_line(root_file)
         self.html_file.write('</head>\n<body>\n')
@@ -76,7 +76,7 @@ class HTMLGenerator:
         self.components.append(component_name)
         component_file = open(self.src_dir + '/components/' +
             component_name + '/' + component_name + '.layout.gsm', 'r')
-        
+
         component_file.readline()
         curr_line = self.next_line(component_file)
 
@@ -89,13 +89,15 @@ class HTMLGenerator:
             curr_line = self.next_line(component_file)
 
     def get_component_info(self, file, curr_line):
+        self_closing = '}' in curr_line
         component_name = curr_line.split()[1]
-        curr_line = self.next_line(file)
         component_inputs = {}
-        while self.is_attribute(curr_line):
-            input_name, input_value = curr_line.split(':')
-            component_inputs[input_name.strip()] = input_value.strip()
+        if not self_closing:
             curr_line = self.next_line(file)
+            while self.is_attribute(curr_line):
+                input_name, input_value = curr_line.split(': ')
+                component_inputs[input_name.strip()] = input_value.strip()
+                curr_line = self.next_line(file)
         return component_name, component_inputs, curr_line
 
     def get_tag_info(self, curr_line):
@@ -133,6 +135,8 @@ class HTMLGenerator:
         line = line = self.replace_with_inputs(inputs, self.next_line(file))
         while self.is_attribute(line):
             attr, value = line.split(': ')
+            if attr.strip() in attr_map:
+                attr = attr_map[attr.strip()]
             tag_line += ' ' + attr.strip() + '="' + value.strip() + '"'
             line = line = self.replace_with_inputs(inputs, self.next_line(file))
         return tag_line, line
@@ -151,7 +155,7 @@ class HTMLGenerator:
         return tag_name == 'img'
 
     def is_text_tag(self, tag_name):
-        return tag_name == 'p'
+        return tag_name in ('p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6')
 
     def is_attribute(self, line):
         return not self.is_tag(line) and not self.is_closure(line) and len(line.split(': ')) == 2
